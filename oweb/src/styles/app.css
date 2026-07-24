@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+:root {
+  --ts-ink: #0b1f1c;
+  --ts-forest: #0f766e;
+  --ts-moss: #134e4a;
+  --ts-sand: #f3efe6;
+  --ts-clay: #c4a574;
+  --ts-mist: #e7f0ee;
+  --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", serif;
+  --font-body: "Source Sans 3", "Segoe UI", sans-serif;
+}
+
+@layer base {
+  html,
+  body {
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+    color: var(--ts-ink);
+    font-family: var(--font-body);
+    background:
+      radial-gradient(1200px 600px at 10% -10%, #d9ebe6 0%, transparent 55%),
+      radial-gradient(900px 500px at 100% 0%, #efe4cf 0%, transparent 50%),
+      linear-gradient(180deg, #f7f4ee 0%, #eef3f1 45%, #e8efeC 100%);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.surface {
+  background: color-mix(in oklab, white 78%, transparent);
+  border: 1px solid color-mix(in oklab, var(--ts-moss) 12%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-rise {
+  animation: rise-in 0.55s ease-out both;
+}
+
+.animate-drift {
+  animation: drift 5s ease-in-out infinite alternate;
+}

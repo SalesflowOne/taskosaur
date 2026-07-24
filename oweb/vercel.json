@@ -1,0 +1,9 @@
+{
+  "framework": "tanstack-start",
+  "crons": [
+    {
+      "path": "/api/cron/recurring-tasks",
+      "schedule": "0 0 * * *"
+    }
+  ]
+}
