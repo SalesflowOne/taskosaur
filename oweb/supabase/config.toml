@@ -1,0 +1,3 @@
+# Linked remotely via Supabase CLI / dashboard.
+# Local supabase start is optional; production DB is hosted Supabase.
+project_id = "taskosaur-oweb"

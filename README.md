@@ -24,6 +24,12 @@ Taskosaur is an open source project management platform with conversational AI f
 
 Taskosaur combines traditional project management features with Conversational AI Task Execution, allowing you to manage projects through natural conversation. Instead of navigating menus and forms, you can create tasks, assign work, and manage workflows by simply describing what you need.
 
+> **OWeb conversion (in progress):** The deploy target is moving to a Vercel-native app in [`oweb/`](oweb/) (TanStack Start + Supabase), matching the [OWeb-Intelligence](https://github.com/SalesflowOne/OWeb-Intelligence) stack. See [`plans/OWEB_CONVERSION_PLAN.md`](plans/OWEB_CONVERSION_PLAN.md). Legacy NestJS + Next.js remain in `backend/` and `frontend/` until cutover.
+>
+> ```bash
+> npm run dev:oweb
+> ```
+
 ## Key Features
 
 - 🤖 **Conversational AI for Task Execution** - Execute project tasks through natural conversation directly in-app

@@ -25,6 +25,11 @@ out/
 *.tsbuildinfo
 next-env.d.ts
 
+# OWeb / TanStack Start / Nitro
+oweb/.output/
+oweb/.vercel/
+oweb/node_modules/.nitro/
+
 # NestJS (backend)
 dist/
 

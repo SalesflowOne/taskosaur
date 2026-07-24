@@ -2,13 +2,31 @@
 
 This document provides guidance for AI agents working with the Taskosaur project, including development setup, testing, and code quality standards.
 
+## OWeb conversion (active)
+
+Taskosaur is being rewritten as an **OWeb app** (Vercel + Supabase), matching [OWeb-Intelligence](https://github.com/SalesflowOne/OWeb-Intelligence).
+
+| Path | Role |
+|------|------|
+| **`oweb/`** | **Primary** — TanStack Start on Vercel, Supabase Auth/DB, Vercel Cron |
+| `backend/` + `frontend/` | **Legacy** NestJS + Next.js (self-hosted Postgres/Redis) — keep until cutover |
+| `plans/OWEB_CONVERSION_PLAN.md` | Phased conversion plan |
+
+```bash
+npm run dev:oweb    # oweb app on port 3001
+npm run build:oweb
+```
+
+Vercel Root Directory must be `oweb`. Do not try to deploy Nest/BullMQ/Redis on Vercel.
+
 ## Project Overview
 
-Taskosaur is an open-source project management platform with conversational AI task execution. It's built as a monorepo with:
-- **Backend**: NestJS API server (port 3000)
-- **Frontend**: Next.js application (port 3001)
-- **Database**: PostgreSQL with Prisma ORM
-- **Queue**: Redis with BullMQ
+Taskosaur is an open-source project management platform with conversational AI task execution. Legacy monorepo layout:
+- **Backend**: NestJS API server (port 3000) — legacy
+- **Frontend**: Next.js application (port 3001) — legacy
+- **Database**: PostgreSQL with Prisma ORM — legacy (target: Supabase)
+- **Queue**: Redis with BullMQ — legacy (target: Vercel Cron/Queues)
+- **OWeb app**: `oweb/` TanStack Start — deploy target
 
 ## Development Setup
 
