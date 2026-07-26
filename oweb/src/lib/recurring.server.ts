@@ -1,9 +1,20 @@
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { getSupabaseAdminOrNull } from "@/integrations/supabase/client.server";
 import { taskSlug } from "@/lib/slug";
 
 /** Cron: spawn next occurrence for due recurring tasks (admin). */
-export async function processRecurringTasks(): Promise<{ spawned: number }> {
-  const { data: due, error } = await supabaseAdmin
+export async function processRecurringTasks(): Promise<{
+  spawned: number;
+  skipped?: string;
+}> {
+  const admin = getSupabaseAdminOrNull();
+  if (!admin) {
+    return {
+      spawned: 0,
+      skipped: "SUPABASE_SERVICE_ROLE_KEY is not configured",
+    };
+  }
+
+  const { data: due, error } = await admin
     .from("recurring_tasks")
     .select("*, tasks(*)")
     .eq("is_active", true)
@@ -25,7 +36,7 @@ export async function processRecurringTasks(): Promise<{ spawned: number }> {
     } | null;
     if (!source) continue;
 
-    const { data: last } = await supabaseAdmin
+    const { data: last } = await admin
       .from("tasks")
       .select("task_number")
       .eq("project_id", source.project_id)
@@ -34,7 +45,7 @@ export async function processRecurringTasks(): Promise<{ spawned: number }> {
       .maybeSingle();
 
     const taskNumber = (last?.task_number ?? 0) + 1;
-    const { error: insertErr } = await supabaseAdmin.from("tasks").insert({
+    const { error: insertErr } = await admin.from("tasks").insert({
       project_id: source.project_id,
       status_id: source.status_id,
       title: source.title,
@@ -57,7 +68,7 @@ export async function processRecurringTasks(): Promise<{ spawned: number }> {
       next.setUTCFullYear(next.getUTCFullYear() + row.interval);
     }
 
-    await supabaseAdmin
+    await admin
       .from("recurring_tasks")
       .update({
         next_occurrence: next.toISOString(),
