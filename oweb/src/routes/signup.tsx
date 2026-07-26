@@ -13,17 +13,19 @@ function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
     setError(null);
+    setInfo(null);
     if (!hasSupabaseBrowserConfig()) {
       setError("Supabase env vars are not configured yet.");
       return;
     }
     setLoading(true);
-    const { error: signUpError } = await supabase.auth.signUp({
+    const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -36,6 +38,12 @@ function SignupPage() {
     setLoading(false);
     if (signUpError) {
       setError(signUpError.message);
+      return;
+    }
+    if (!data.session) {
+      setInfo(
+        "Account created. Check your email to confirm, then sign in.",
+      );
       return;
     }
     void navigate({ to: "/app" });
@@ -92,6 +100,7 @@ function SignupPage() {
           />
         </label>
         {error ? <p className="text-sm text-red-700">{error}</p> : null}
+        {info ? <p className="text-sm text-[var(--ts-forest)]">{info}</p> : null}
         <button
           type="submit"
           disabled={loading}
